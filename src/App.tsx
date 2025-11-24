@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { Logo } from '@/components/Logo'
+import { CodeBlock } from '@/components/CodeBlock'
 import { 
   Play, 
   Pause, 
@@ -19,7 +20,8 @@ import {
   Palette,
   Download,
   Github,
-  ExternalLink
+  ExternalLink,
+  CheckCircle
 } from 'lucide-react'
 import { toast } from 'sonner'
 import './App.css'
@@ -27,7 +29,6 @@ import './App.css'
 function AppContent() {
   const [recordingResult, setRecordingResult] = useState<RecordingResult | null>(null)
   const [isCapturing, setIsCapturing] = useState(false)
-  const [copiedCode, setCopiedCode] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'simple' | 'advanced'>('simple')
   const recorder = useRecordPanel()
 
@@ -138,12 +139,6 @@ function AppContent() {
     }
   }
 
-  const copyToClipboard = (text: string, id: string) => {
-    navigator.clipboard.writeText(text)
-    setCopiedCode(id)
-    toast.success('Copied to clipboard')
-    setTimeout(() => setCopiedCode(null), 2000)
-  }
 
   const codeExamples = {
     simple: `import { RecordPanelHost, useRecordPanel } from 'recordpanel'
@@ -429,55 +424,19 @@ pnpm add recordpanel`
                 <Code className="h-6 w-6" />
                 Installation
               </h3>
-              <div className="relative">
-                <pre className="bg-muted p-4 rounded-lg border overflow-x-auto">
-                  <code className="text-sm">{codeExamples.installation}</code>
-                </pre>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="absolute top-2 right-2"
-                  onClick={() => copyToClipboard(codeExamples.installation, 'install')}
-                >
-                  {copiedCode === 'install' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </Button>
-              </div>
+              <CodeBlock code={codeExamples.installation} language="bash" />
             </div>
 
             {/* Code Examples */}
             <div className="space-y-8">
               <div>
                 <h3 className="text-2xl font-semibold mb-4">Simple API</h3>
-                <div className="relative">
-                  <pre className="bg-muted p-4 rounded-lg border overflow-x-auto">
-                    <code className="text-sm">{codeExamples.simple}</code>
-                  </pre>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="absolute top-2 right-2"
-                    onClick={() => copyToClipboard(codeExamples.simple, 'simple')}
-                  >
-                    {copiedCode === 'simple' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
+                <CodeBlock code={codeExamples.simple} language="typescript" />
               </div>
 
               <div>
                 <h3 className="text-2xl font-semibold mb-4">Advanced API</h3>
-                <div className="relative">
-                  <pre className="bg-muted p-4 rounded-lg border overflow-x-auto">
-                    <code className="text-sm">{codeExamples.advanced}</code>
-                  </pre>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="absolute top-2 right-2"
-                    onClick={() => copyToClipboard(codeExamples.advanced, 'advanced')}
-                  >
-                    {copiedCode === 'advanced' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
+                <CodeBlock code={codeExamples.advanced} language="typescript" />
               </div>
             </div>
           </div>
@@ -540,9 +499,7 @@ recorder.getRecordingDuration()  // number (seconds)`
                 <div key={i} className="bg-card/50 backdrop-blur-sm border rounded-lg p-6">
                   <h3 className="text-xl font-semibold mb-2 font-mono">{api.title}</h3>
                   <p className="text-muted-foreground mb-4">{api.desc}</p>
-                  <pre className="bg-muted p-4 rounded border overflow-x-auto">
-                    <code className="text-sm">{api.code}</code>
-                  </pre>
+                  <CodeBlock code={api.code} language="typescript" />
                 </div>
               ))}
             </div>
@@ -561,12 +518,12 @@ recorder.getRecordingDuration()  // number (seconds)`
             </p>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { name: 'Chrome/Edge', support: 'Full support', icon: '✅' },
-                { name: 'Firefox', support: 'Screen + Mic', icon: '✅' },
-                { name: 'Safari', support: 'Screen + Mic', icon: '✅' },
+                { name: 'Chrome/Edge', support: 'Full support' },
+                { name: 'Firefox', support: 'Screen + Mic' },
+                { name: 'Safari', support: 'Screen + Mic' },
               ].map((browser, i) => (
                 <div key={i} className="p-6 border rounded-lg bg-card/50 backdrop-blur-sm">
-                  <div className="text-3xl mb-2">{browser.icon}</div>
+                  <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-500 mb-2 mx-auto" />
                   <h3 className="font-semibold mb-1">{browser.name}</h3>
                   <p className="text-sm text-muted-foreground">{browser.support}</p>
                 </div>
