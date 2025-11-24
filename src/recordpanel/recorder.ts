@@ -20,6 +20,7 @@ export interface RequestPermissionsOptions {
 }
 
 export interface StartOptions {
+  cameraEnabled?: boolean
   audioEnabled?: boolean
 }
 
@@ -74,7 +75,7 @@ export class ScreenRecorder {
 
       // Capture tab/screen
       const displayStream = await navigator.mediaDevices.getDisplayMedia({
-        video: { mediaSource: 'screen' },
+        video: { mediaSource: 'screen' } as MediaTrackConstraints,
         audio: audioEnabled
       })
 
@@ -191,17 +192,16 @@ export class ScreenRecorder {
       }
 
       this.mediaRecorder.onerror = (event: Event) => {
-        const errorEvent = event as MediaRecorderErrorEvent
         this.state = 'idle'
         this.notifyStateChange()
-        const error = errorEvent.error || new Error('Unknown MediaRecorder error')
+        const error = (event as any).error || new Error('Unknown MediaRecorder error')
         if (this.onError) {
           this.onError(error)
         }
         reject(error)
       }
 
-      this.mediaRecorder.onstop = () => {
+      this.mediaRecorder.onstop = (_event: Event) => {
         this.state = 'stopped'
         this.notifyStateChange()
         
@@ -290,8 +290,8 @@ export class ScreenRecorder {
       if (recorder.state === 'recording' || recorder.state === 'paused') {
         // Set up one-time resolve handler
         const originalOnStop = recorder.onstop
-        recorder.onstop = () => {
-          if (originalOnStop) originalOnStop()
+        recorder.onstop = (event: Event) => {
+          if (originalOnStop) originalOnStop.call(recorder, event)
           
           if (this.recordedChunks.length === 0) {
             reject(new Error('No recording data available'))
@@ -412,8 +412,8 @@ export class ScreenRecorder {
         }
         
         const originalOnStop = this.mediaRecorder.onstop
-        this.mediaRecorder.onstop = () => {
-          if (originalOnStop) originalOnStop()
+        this.mediaRecorder.onstop = (event: Event) => {
+          if (originalOnStop && this.mediaRecorder) originalOnStop.call(this.mediaRecorder, event)
           resolve()
         }
         

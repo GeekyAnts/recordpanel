@@ -5,6 +5,3 @@ export { RecorderUI } from './RecorderUI'
 export { useRecordPanel } from './RecorderContext'
 export type { RecorderAPI, RecorderConfig, Theme } from './RecorderContext'
 export type { RecordingResult, RecorderState, Streams, RequestPermissionsOptions, StartOptions } from './recorder'
-
-// Default export for convenience
-export { RecordPanelHost as default } from './RecorderHost'

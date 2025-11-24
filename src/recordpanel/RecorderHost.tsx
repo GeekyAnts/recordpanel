@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useMemo, type ReactNode } from 'react'
 import { ScreenRecorder } from './recorder'
 import { RecorderUI } from './RecorderUI'
-import { RecorderContext, type RecorderAPI, type RecorderConfig, type Theme } from './RecorderContext'
+import { RecorderContext, type RecorderAPI, type RecorderConfig } from './RecorderContext'
 import type { StartOptions, RecordingResult } from './recorder'
 
 interface RecordPanelHostProps {
@@ -404,7 +404,7 @@ export function RecordPanelHost({ children, config: initialConfig = {} }: Record
         audioEnabled={audioEnabled}
         onToggleCamera={toggleCamera}
         onToggleAudio={toggleAudio}
-        onStop={stop}
+        onStop={async () => { await stop() }}
         onPause={pause}
         onResume={resume}
         onRestart={restart}

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import type { RecorderState, RecordingResult, RequestPermissionsOptions, StartOptions } from './recorder'
+import type { RecorderState, RecordingResult, StartOptions } from './recorder'
 
 export type Theme = 'light' | 'dark' | 'auto'
 

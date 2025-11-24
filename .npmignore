@@ -1,0 +1,44 @@
+# Source files
+src/
+*.ts
+*.tsx
+!dist/**/*.d.ts
+
+# Development files
+.vscode/
+.idea/
+*.local
+*.log
+.DS_Store
+
+# Build configs (not needed in package)
+vite.config.js
+vite.config.library.js
+tsconfig.json
+tsconfig.node.json
+tailwind.config.js
+postcss.config.js
+eslint.config.js
+
+# Demo app files
+index.html
+public/
+App.tsx
+App.css
+main.tsx
+components/
+lib/
+
+# Documentation (keep README.md)
+IMPLEMENTATION_PLAN.md
+PACKAGING_STRATEGY.md
+
+# Git
+.git/
+.gitignore
+
+# Dependencies (will be installed by consumers)
+node_modules/
+
+# Build outputs (we only want dist/)
+dist-ssr/

@@ -1,24 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import dts from 'vite-plugin-dts'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // Library build configuration
-// Note: Install vite-plugin-dts for TypeScript declaration files:
-// npm install -D vite-plugin-dts
-// Then uncomment the dts import and plugin below
-
 export default defineConfig({
   plugins: [
     react(),
-    // Uncomment after installing vite-plugin-dts:
-    // dts({
-    //   insertTypesEntry: true,
-    //   include: ['src/recordpanel/**/*'],
-    //   exclude: ['src/recordpanel/**/*.test.*', 'src/recordpanel/**/*.spec.*']
-    // })
+    dts({
+      insertTypesEntry: true,
+      include: ['src/recordpanel/**/*'],
+      exclude: ['src/recordpanel/**/*.test.*', 'src/recordpanel/**/*.spec.*'],
+      outDir: 'dist',
+    })
   ],
   build: {
     lib: {
