@@ -256,7 +256,7 @@ pnpm add recordpanel`
         
         <div className="container mx-auto px-4 py-20 md:py-32 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground">
               RecordPanel
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-4">

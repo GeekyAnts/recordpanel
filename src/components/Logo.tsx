@@ -6,7 +6,7 @@ export function Logo({ className }: { className?: string }) {
           <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
         </div>
       </div>
-      <span className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+      <span className="text-xl font-bold text-foreground">
         RecordPanel
       </span>
     </div>
