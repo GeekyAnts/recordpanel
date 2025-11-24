@@ -18,9 +18,11 @@
 
 <div align="center">
 
-[![RecordPanel Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://github.com/GeekyAnts/recordpanel/raw/main/public/recordpanel-demo.webm)
+[![RecordPanel Demo](https://img.shields.io/badge/▶️-Watch%20on%20YouTube-red?style=for-the-badge)](https://www.youtube.com/watch?v=HTE0s_IvWFE)
 
-*Click the badge above to watch RecordPanel in action - screen recording with camera and audio support*
+[![RecordPanel Demo Video](https://img.youtube.com/vi/HTE0s_IvWFE/maxresdefault.jpg)](https://www.youtube.com/watch?v=HTE0s_IvWFE)
+
+*Click the image above to watch RecordPanel in action - screen recording with camera and audio support*
 
 </div>
 

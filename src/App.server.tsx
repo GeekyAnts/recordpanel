@@ -71,15 +71,14 @@ function AppContentSSR() {
             
             {/* Demo Video */}
             <div className="max-w-4xl mx-auto mt-12">
-              <div className="relative rounded-lg overflow-hidden border shadow-2xl bg-background">
-                <video
-                  className="w-full h-auto"
-                  controls
-                  preload="metadata"
-                >
-                  <source src="/recordpanel-demo.webm" type="video/webm" />
-                  Your browser does not support the video tag.
-                </video>
+              <div className="relative rounded-lg overflow-hidden border shadow-2xl bg-background aspect-video">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/HTE0s_IvWFE"
+                  title="RecordPanel Demo - React Screen Recording SDK"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
               </div>
               <p className="text-sm text-muted-foreground text-center mt-4">
                 Watch RecordPanel in action - screen recording with camera and audio support

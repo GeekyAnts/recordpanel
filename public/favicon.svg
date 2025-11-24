@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background circle matching Logo component -->
+  <circle cx="16" cy="16" r="15" fill="#1a1a1a" stroke="#404040" stroke-width="1"/>
+  <!-- Recording dot matching Logo component (red-500) -->
+  <circle cx="16" cy="16" r="6" fill="#ef4444"/>
+  <!-- Subtle glow effect for visual interest -->
+  <circle cx="16" cy="16" r="6" fill="#ef4444" opacity="0.6">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
