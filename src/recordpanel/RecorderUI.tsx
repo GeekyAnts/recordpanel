@@ -10,8 +10,8 @@ import {
   Square, 
   X 
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from './components/ui/button'
+import { cn } from './lib/utils'
 import type { ScreenRecorder } from './recorder'
 import './styles.css'
 
