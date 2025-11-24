@@ -279,7 +279,7 @@ pnpm add recordpanel`
               <div className="relative rounded-lg overflow-hidden border shadow-2xl bg-background aspect-video">
                 <iframe
                   className="w-full h-full"
-                  src="https://www.youtube.com/embed/HTE0s_IvWFE"
+                  src="https://www.youtube.com/embed/Kz4beXoC32I"
                   title="RecordPanel Demo - React Screen Recording SDK"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen

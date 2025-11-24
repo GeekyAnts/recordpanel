@@ -18,9 +18,9 @@
 
 <div align="center">
 
-[![RecordPanel Demo](https://img.shields.io/badge/▶️-Watch%20on%20YouTube-red?style=for-the-badge)](https://www.youtube.com/watch?v=HTE0s_IvWFE)
+[![RecordPanel Demo](https://img.shields.io/badge/▶️-Watch%20on%20YouTube-red?style=for-the-badge)](https://www.youtube.com/watch?v=Kz4beXoC32I)
 
-[![RecordPanel Demo Video](https://img.youtube.com/vi/HTE0s_IvWFE/maxresdefault.jpg)](https://www.youtube.com/watch?v=HTE0s_IvWFE)
+[![RecordPanel Demo Video](https://img.youtube.com/vi/Kz4beXoC32I/maxresdefault.jpg)](https://www.youtube.com/watch?v=Kz4beXoC32I)
 
 *Click the image above to watch RecordPanel in action - screen recording with camera and audio support*
 
