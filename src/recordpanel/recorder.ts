@@ -57,6 +57,17 @@ export class ScreenRecorder {
   async requestPermissions(options: RequestPermissionsOptions = {}): Promise<Streams> {
     const { cameraEnabled = true, audioEnabled = true } = options
     
+    // Check if MediaDevices API is available
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+      const error = new Error('Screen recording is not supported in this browser or context. Please use HTTPS or a modern browser.')
+      this.state = 'idle'
+      this.notifyStateChange()
+      if (this.onError) {
+        this.onError(error)
+      }
+      throw error
+    }
+    
     try {
       this.state = 'requesting'
       this.notifyStateChange()
@@ -70,6 +81,15 @@ export class ScreenRecorder {
       // Capture camera and audio if enabled
       let cameraStream: MediaStream | null = null
       if (cameraEnabled || audioEnabled) {
+        if (!navigator.mediaDevices.getUserMedia) {
+          const error = new Error('Camera/microphone access is not supported in this browser.')
+          this.state = 'idle'
+          this.notifyStateChange()
+          if (this.onError) {
+            this.onError(error)
+          }
+          throw error
+        }
         cameraStream = await navigator.mediaDevices.getUserMedia({
           video: cameraEnabled,
           audio: audioEnabled
