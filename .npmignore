@@ -42,3 +42,4 @@ node_modules/
 
 # Build outputs (we only want dist/)
 dist-ssr/
+dist/vite.svg
