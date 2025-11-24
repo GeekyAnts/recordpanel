@@ -14,6 +14,18 @@
 
 ---
 
+## 🎬 Demo
+
+<div align="center">
+
+[![RecordPanel Demo](https://img.shields.io/badge/▶️-Watch%20Demo-red?style=for-the-badge)](https://github.com/GeekyAnts/recordpanel/raw/main/public/recordpanel-demo.webm)
+
+*Click the badge above to watch RecordPanel in action - screen recording with camera and audio support*
+
+</div>
+
+---
+
 ## Overview
 
 RecordPanel is a feature-rich React SDK that enables screen recording with camera and audio capture capabilities. It provides a beautiful, draggable floating UI with real-time audio feedback, making it perfect for creating video tutorials, bug reports, or any application that requires screen recording functionality.

@@ -261,7 +261,7 @@ pnpm add recordpanel`
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               Beautiful, draggable UI with real-time audio feedback. Perfect for video tutorials, bug reports, and more.
             </p>
-            <div className="flex gap-4 justify-center flex-wrap">
+            <div className="flex gap-4 justify-center flex-wrap mb-12">
               <Button size="lg" className="gap-2" onClick={handleCapture} disabled={isCapturing}>
                 <Play className="h-5 w-5" />
                 {isCapturing ? 'Recording...' : 'Try Live Demo'}
@@ -272,6 +272,23 @@ pnpm add recordpanel`
                   View on GitHub
                 </a>
               </Button>
+            </div>
+            
+            {/* Demo Video */}
+            <div className="max-w-4xl mx-auto mt-12">
+              <div className="relative rounded-lg overflow-hidden border shadow-2xl bg-background">
+                <video
+                  className="w-full h-auto"
+                  controls
+                  preload="metadata"
+                >
+                  <source src="/recordpanel-demo.webm" type="video/webm" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <p className="text-sm text-muted-foreground text-center mt-4">
+                Watch RecordPanel in action - screen recording with camera and audio support
+              </p>
             </div>
           </div>
         </div>

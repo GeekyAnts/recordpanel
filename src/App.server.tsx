@@ -51,7 +51,7 @@ function AppContentSSR() {
               A powerful React SDK for screen recording with camera and audio support. 
               Beautiful, draggable UI with real-time audio feedback.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <a 
                 href="#demo" 
                 className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
@@ -67,6 +67,23 @@ function AppContentSSR() {
                 <Github className="h-4 w-4 mr-2" />
                 View on GitHub
               </a>
+            </div>
+            
+            {/* Demo Video */}
+            <div className="max-w-4xl mx-auto mt-12">
+              <div className="relative rounded-lg overflow-hidden border shadow-2xl bg-background">
+                <video
+                  className="w-full h-auto"
+                  controls
+                  preload="metadata"
+                >
+                  <source src="/recordpanel-demo.webm" type="video/webm" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <p className="text-sm text-muted-foreground text-center mt-4">
+                Watch RecordPanel in action - screen recording with camera and audio support
+              </p>
             </div>
           </div>
         </div>
