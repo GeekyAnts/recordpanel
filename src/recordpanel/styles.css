@@ -1,3 +1,24 @@
+/* CSS Variables - can be overridden by host app */
+:root {
+  --recordpanel-primary: 221 83% 53%;
+  --recordpanel-primary-foreground: 0 0% 100%;
+  --recordpanel-secondary: 210 40% 96%;
+  --recordpanel-secondary-foreground: 222 47% 11%;
+  --recordpanel-destructive: 0 84% 60%;
+  --recordpanel-destructive-foreground: 0 0% 100%;
+  --recordpanel-muted: 210 40% 96%;
+  --recordpanel-muted-foreground: 215 16% 47%;
+  --recordpanel-accent: 210 40% 96%;
+  --recordpanel-accent-foreground: 222 47% 11%;
+  --recordpanel-border: 214 32% 91%;
+  --recordpanel-input: 214 32% 91%;
+  --recordpanel-ring: 221 83% 53%;
+  --recordpanel-background: 0 0% 100%;
+  --recordpanel-foreground: 222 47% 11%;
+  --recordpanel-card: 0 0% 100%;
+  --recordpanel-card-foreground: 222 47% 11%;
+}
+
 .recordpanel-overlay {
   position: fixed;
   bottom: 24px;
@@ -48,8 +69,8 @@
   background: #000;
   box-shadow: 
     0 4px 16px rgba(0, 0, 0, 0.3),
-    0 0 0 2px hsl(var(--border)),
-    0 0 0 4px hsl(var(--muted));
+    0 0 0 2px hsl(var(--recordpanel-border)),
+    0 0 0 4px hsl(var(--recordpanel-muted));
   transition: all 0.3s ease;
   cursor: move;
   z-index: 1;
@@ -58,8 +79,8 @@
 .recordpanel-camera-preview:hover {
   box-shadow: 
     0 6px 20px rgba(0, 0, 0, 0.4),
-    0 0 0 2px hsl(var(--border)),
-    0 0 0 4px hsl(var(--muted));
+    0 0 0 2px hsl(var(--recordpanel-border)),
+    0 0 0 4px hsl(var(--recordpanel-muted));
   transform: scale(1.02);
 }
 
@@ -116,21 +137,138 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.recordpanel-paused-text {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.recordpanel-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.recordpanel-icon-small {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
 .recordpanel-controls {
   display: flex;
   gap: 6px;
-  background: hsl(var(--card));
+  background: hsl(var(--recordpanel-card));
   backdrop-filter: blur(12px);
   padding: 8px;
   border-radius: 10px;
   box-shadow: 
     0 2px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px hsl(var(--border));
+    0 0 0 1px hsl(var(--recordpanel-border));
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  border: 1px solid hsl(var(--border));
+  border: 1px solid hsl(var(--recordpanel-border));
   cursor: move;
+}
+
+/* Button Styles */
+.recordpanel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+.recordpanel-button:focus-visible {
+  outline: 2px solid hsl(var(--recordpanel-ring));
+  outline-offset: 2px;
+}
+
+.recordpanel-button:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Button Sizes */
+.recordpanel-button-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.recordpanel-button-stop {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+/* Button Variants */
+.recordpanel-button-primary {
+  background: hsl(var(--recordpanel-primary));
+  color: hsl(var(--recordpanel-primary-foreground));
+}
+
+.recordpanel-button-primary:hover {
+  background: hsl(var(--recordpanel-primary) / 0.9);
+}
+
+.recordpanel-button-outline {
+  background: transparent;
+  color: hsl(var(--recordpanel-foreground));
+  border: 1px solid hsl(var(--recordpanel-border));
+}
+
+.recordpanel-button-outline:hover {
+  background: hsl(var(--recordpanel-accent));
+  color: hsl(var(--recordpanel-accent-foreground));
+}
+
+.recordpanel-button-ghost {
+  background: transparent;
+  color: hsl(var(--recordpanel-foreground));
+}
+
+.recordpanel-button-ghost:hover {
+  background: hsl(var(--recordpanel-accent));
+  color: hsl(var(--recordpanel-accent-foreground));
+}
+
+/* Special Button Styles */
+.recordpanel-button-pause {
+  background: #ca8a04;
+  color: white;
+}
+
+.recordpanel-button-pause:hover {
+  background: #a16207;
+}
+
+.recordpanel-button-resume {
+  background: #16a34a;
+  color: white;
+}
+
+.recordpanel-button-resume:hover {
+  background: #15803d;
+}
+
+.recordpanel-button-restart {
+  background: transparent;
+  color: #ea580c;
+  border: 1px solid #ea580c;
+}
+
+.recordpanel-button-restart:hover {
+  background: #fff7ed;
 }
 
 .recordpanel-controls button {
@@ -146,8 +284,8 @@
   font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
   font-size: 13px;
   font-weight: 600;
-  color: hsl(var(--foreground));
-  background: hsl(var(--muted));
+  color: hsl(var(--recordpanel-foreground));
+  background: hsl(var(--recordpanel-muted));
   border-radius: 5px;
   height: 32px;
 }
@@ -168,7 +306,7 @@
 
 .recordpanel-audio-bar-segment {
   width: 3px;
-  background: hsl(var(--primary));
+  background: hsl(var(--recordpanel-primary));
   border-radius: 1.5px;
   transition: all 0.1s ease;
 }
@@ -194,8 +332,8 @@
 }
 
 .recordpanel-audio-bar-segment.active {
-  background: hsl(var(--primary));
-  box-shadow: 0 0 4px hsl(var(--primary) / 0.5);
+  background: hsl(var(--recordpanel-primary));
+  box-shadow: 0 0 4px hsl(var(--recordpanel-primary) / 0.5);
 }
 
 .recordpanel-audio-indicator {
@@ -204,7 +342,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: hsl(var(--primary) / 0.2);
+  background: hsl(var(--recordpanel-primary) / 0.2);
   border-radius: 0 0 50% 50%;
   overflow: hidden;
 }
@@ -213,11 +351,42 @@
   width: 100%;
   background: linear-gradient(
     to right,
-    hsl(var(--primary)),
-    hsl(var(--primary) / 0.8)
+    hsl(var(--recordpanel-primary)),
+    hsl(var(--recordpanel-primary) / 0.8)
   );
   transition: height 0.1s ease;
   border-radius: 0 0 50% 50%;
+}
+
+/* Error Message */
+.recordpanel-error {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: hsl(var(--recordpanel-destructive) / 0.1);
+  border: 1px solid hsl(var(--recordpanel-destructive) / 0.2);
+  color: hsl(var(--recordpanel-destructive));
+  padding: 12px 16px;
+  border-radius: 8px;
+  z-index: 10001;
+  max-width: 384px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.recordpanel-error-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.recordpanel-error-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.recordpanel-error-message {
+  font-size: 14px;
 }
 
 /* Responsive adjustments */

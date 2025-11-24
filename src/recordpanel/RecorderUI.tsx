@@ -7,11 +7,8 @@ import {
   Play, 
   Pause, 
   RotateCcw, 
-  Square, 
   X 
 } from 'lucide-react'
-import { Button } from './components/ui/button'
-import { cn } from './lib/utils'
 import type { ScreenRecorder } from './recorder'
 import './styles.css'
 
@@ -209,7 +206,7 @@ export function RecorderUI({
   const showCamera = streams?.camera && cameraEnabled
 
   return (
-    <div className={cn("recordpanel-overlay", isDragging && "dragging")} ref={overlayRef}>
+    <div className={`recordpanel-overlay ${isDragging ? 'dragging' : ''}`} ref={overlayRef}>
       <div className="recordpanel-container">
         {/* Camera Preview - Absolutely positioned to not affect controls layout */}
         {showCamera && (
@@ -228,8 +225,8 @@ export function RecorderUI({
             )}
             {isPaused && (
               <div className="recordpanel-paused-indicator">
-                <Pause className="w-2.5 h-2.5" />
-                <span className="text-[10px] font-semibold">Paused</span>
+                <Pause className="recordpanel-icon-small" />
+                <span className="recordpanel-paused-text">Paused</span>
               </div>
             )}
             {/* Audio level indicator */}
@@ -263,10 +260,9 @@ export function RecorderUI({
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
-                    className={cn(
-                      "recordpanel-audio-bar-segment",
-                      audioLevel > (i + 1) / 5 && "active"
-                    )}
+                    className={`recordpanel-audio-bar-segment ${
+                      audioLevel > (i + 1) / 5 ? 'active' : ''
+                    }`}
                     style={{
                       opacity: audioLevel > (i + 1) / 5 ? 0.3 + (audioLevel * 0.7) : 0.2
                     }}
@@ -276,94 +272,79 @@ export function RecorderUI({
             </div>
           )}
           
-          <Button
-            variant={cameraEnabled ? "default" : "outline"}
-            size="icon"
+          <button
+            className={`recordpanel-button recordpanel-button-icon ${
+              cameraEnabled ? 'recordpanel-button-primary' : 'recordpanel-button-outline'
+            }`}
             onClick={onToggleCamera}
-            className={cn(
-              "h-8 w-8",
-              cameraEnabled && "bg-primary hover:bg-primary/90"
-            )}
             title={cameraEnabled ? 'Disable Camera' : 'Enable Camera'}
           >
             {cameraEnabled ? (
-              <Video className="h-4 w-4" />
+              <Video className="recordpanel-icon" />
             ) : (
-              <VideoOff className="h-4 w-4" />
+              <VideoOff className="recordpanel-icon" />
             )}
-          </Button>
+          </button>
           
-          <Button
-            variant={audioEnabled ? "default" : "outline"}
-            size="icon"
+          <button
+            className={`recordpanel-button recordpanel-button-icon ${
+              audioEnabled ? 'recordpanel-button-primary' : 'recordpanel-button-outline'
+            }`}
             onClick={onToggleAudio}
-            className={cn(
-              "h-8 w-8",
-              audioEnabled && "bg-primary hover:bg-primary/90"
-            )}
             title={audioEnabled ? 'Disable Audio' : 'Enable Audio'}
           >
             {audioEnabled ? (
-              <Mic className="h-4 w-4" />
+              <Mic className="recordpanel-icon" />
             ) : (
-              <MicOff className="h-4 w-4" />
+              <MicOff className="recordpanel-icon" />
             )}
-          </Button>
+          </button>
 
           {isRecording && (
             <>
               {isPaused ? (
-                <Button
-                  variant="default"
-                  size="icon"
+                <button
+                  className="recordpanel-button recordpanel-button-icon recordpanel-button-resume"
                   onClick={onResume}
-                  className="h-8 w-8 bg-green-600 hover:bg-green-700"
                   title="Resume Recording"
                 >
-                  <Play className="h-4 w-4" />
-                </Button>
+                  <Play className="recordpanel-icon" />
+                </button>
               ) : (
-                <Button
-                  variant="default"
-                  size="icon"
+                <button
+                  className="recordpanel-button recordpanel-button-icon recordpanel-button-pause"
                   onClick={onPause}
-                  className="h-8 w-8 bg-yellow-600 hover:bg-yellow-700"
                   title="Pause Recording"
                 >
-                  <Pause className="h-4 w-4" />
-                </Button>
+                  <Pause className="recordpanel-icon" />
+                </button>
               )}
               
-              <Button
-                variant="outline"
-                size="icon"
+              <button
+                className="recordpanel-button recordpanel-button-icon recordpanel-button-restart"
                 onClick={onRestart}
-                className="h-8 w-8 border-orange-500 text-orange-600 hover:bg-orange-50"
                 title="Restart Recording"
               >
-                <RotateCcw className="h-4 w-4" />
-              </Button>
+                <RotateCcw className="recordpanel-icon" />
+              </button>
             </>
           )}
 
-          <Button
-            variant="default"
+          <button
+            className="recordpanel-button recordpanel-button-primary recordpanel-button-stop"
             onClick={onStop}
-            className="h-8 px-3 text-sm bg-primary hover:bg-primary/90"
             title={`${stopButtonText} Recording`}
           >
             {stopButtonText}
-          </Button>
+          </button>
 
-          <Button
-            variant="ghost"
-            size="icon"
+          <button
+            className="recordpanel-button recordpanel-button-icon recordpanel-button-ghost"
             onClick={onClose}
-            className="h-8 w-8 hover:bg-muted"
             title="Close"
           >
-            <X className="h-4 w-4" />
-          </Button>
+            <X className="recordpanel-icon" />
+          </button>
         </div>
       </div>
     </div>

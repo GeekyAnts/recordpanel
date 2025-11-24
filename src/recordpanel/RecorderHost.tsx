@@ -389,10 +389,10 @@ export function RecordPanelHost({ children, config: initialConfig = {} }: Record
     <RecorderContext.Provider value={api}>
       {children}
       {error && visible && (
-        <div className="fixed top-4 right-4 bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg z-[10001] max-w-sm shadow-lg backdrop-blur-sm">
-          <div className="flex items-start gap-2">
-            <span className="text-sm font-medium">Error:</span>
-            <span className="text-sm">{error}</span>
+        <div className="recordpanel-error">
+          <div className="recordpanel-error-content">
+            <span className="recordpanel-error-label">Error:</span>
+            <span className="recordpanel-error-message">{error}</span>
           </div>
         </div>
       )}
