@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { RecordPanelHost, useRecordPanel, type RecordingResult } from './recordpanel'
 import { Button } from '@/components/ui/button'
+import { Toaster } from '@/components/ui/sonner'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
+import { Logo } from '@/components/Logo'
 import { 
   Play, 
   Pause, 
@@ -18,6 +21,7 @@ import {
   Github,
   ExternalLink
 } from 'lucide-react'
+import { toast } from 'sonner'
 import './App.css'
 
 function AppContent() {
@@ -45,13 +49,25 @@ function AppContent() {
       a.download = `recording-${Date.now()}.${extension}`
       a.click()
       
+      toast.success('Recording completed!', {
+        description: `Recording downloaded (${(result.size / 1024 / 1024).toFixed(2)} MB)`,
+      })
+      
       setTimeout(() => {
         URL.revokeObjectURL(result.url)
       }, 100)
     } catch (error) {
       console.error('Failed to capture recording:', error)
       const message = error instanceof Error ? error.message : 'Unknown error'
-      alert(`Failed to capture recording: ${message}`)
+      if (message.includes('cancel') || message.includes('denied')) {
+        toast.info('Recording cancelled', {
+          description: 'You cancelled the recording operation.',
+        })
+      } else {
+        toast.error('Failed to capture recording', {
+          description: message,
+        })
+      }
     } finally {
       setIsCapturing(false)
     }
@@ -63,8 +79,19 @@ function AppContent() {
         cameraEnabled: true,
         audioEnabled: true
       })
+      toast.success('Recording started')
     } catch (error) {
       console.error('Failed to start recording:', error)
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      if (message.includes('cancel') || message.includes('denied')) {
+        toast.info('Recording cancelled', {
+          description: 'Permission was denied or cancelled.',
+        })
+      } else {
+        toast.error('Failed to start recording', {
+          description: message,
+        })
+      }
     }
   }
 
@@ -78,28 +105,43 @@ function AppContent() {
         const extension = result.mimeType.includes('mp4') ? 'mp4' : 'webm'
         a.download = `recording-${Date.now()}.${extension}`
         a.click()
+        toast.success('Recording stopped', {
+          description: `Recording downloaded (${(result.size / 1024 / 1024).toFixed(2)} MB)`,
+        })
         setTimeout(() => {
           URL.revokeObjectURL(result.url)
         }, 100)
       }
     } catch (error) {
       console.error('Failed to stop recording:', error)
+      toast.error('Failed to stop recording')
     }
   }
 
-  const handlePause = () => recorder.pause()
-  const handleResume = () => recorder.resume()
+  const handlePause = () => {
+    recorder.pause()
+    toast.info('Recording paused')
+  }
+
+  const handleResume = () => {
+    recorder.resume()
+    toast.info('Recording resumed')
+  }
+
   const handleRestart = async () => {
     try {
       await recorder.restart()
+      toast.success('Recording restarted')
     } catch (error) {
       console.error('Failed to restart recording:', error)
+      toast.error('Failed to restart recording')
     }
   }
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text)
     setCopiedCode(id)
+    toast.success('Copied to clipboard')
     setTimeout(() => setCopiedCode(null), 2000)
   }
 
@@ -189,12 +231,32 @@ pnpm add recordpanel`
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-16 items-center justify-between px-4">
+          <Logo />
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <Button variant="ghost" size="sm" asChild>
+              <a href="https://github.com/GeekyAnts/recordpanel" target="_blank" rel="noopener noreferrer">
+                <Github className="h-4 w-4 mr-2" />
+                GitHub
+              </a>
+            </Button>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b">
+        {/* Subtle gradient backgrounds */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+        
         <div className="container mx-auto px-4 py-20 md:py-32 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
               RecordPanel
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-4">
@@ -220,8 +282,9 @@ pnpm add recordpanel`
       </section>
 
       {/* Features Section */}
-      <section className="py-20 border-b">
-        <div className="container mx-auto px-4">
+      <section className="py-20 border-b relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+        <div className="container mx-auto px-4 relative">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Features</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {[
@@ -232,7 +295,7 @@ pnpm add recordpanel`
               { icon: Palette, title: 'Customizable', desc: 'Themes, colors, and button text configuration' },
               { icon: Download, title: 'Easy Export', desc: 'Get recordings as Blob with automatic download' },
             ].map((feature, i) => (
-              <div key={i} className="p-6 rounded-lg border bg-card hover:shadow-lg transition-shadow">
+              <div key={i} className="p-6 rounded-lg border bg-card/50 hover:bg-card hover:shadow-lg transition-all backdrop-blur-sm">
                 <feature.icon className="h-8 w-8 text-primary mb-4" />
                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                 <p className="text-muted-foreground">{feature.desc}</p>
@@ -243,15 +306,16 @@ pnpm add recordpanel`
       </section>
 
       {/* Live Demo Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-muted/30 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+        <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Live Demo</h2>
             <p className="text-center text-muted-foreground mb-8">
               Try RecordPanel right in your browser. Click the button below to start recording.
             </p>
             
-            <div className="bg-card border rounded-lg p-8 shadow-lg">
+            <div className="bg-card/50 backdrop-blur-sm border rounded-lg p-8 shadow-lg">
               <div className="flex gap-2 mb-6 border-b">
                 <button
                   onClick={() => setActiveTab('simple')}
@@ -299,19 +363,19 @@ pnpm add recordpanel`
                       <Play className="h-4 w-4" />
                       Start
                     </Button>
-                    <Button onClick={handlePause} variant="outline" className="gap-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50">
+                    <Button onClick={handlePause} variant="outline" className="gap-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-950">
                       <Pause className="h-4 w-4" />
                       Pause
                     </Button>
-                    <Button onClick={handleResume} variant="outline" className="gap-2 border-green-500 text-green-600 hover:bg-green-50">
+                    <Button onClick={handleResume} variant="outline" className="gap-2 border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-950">
                       <Play className="h-4 w-4" />
                       Resume
                     </Button>
-                    <Button onClick={handleRestart} variant="outline" className="gap-2 border-orange-500 text-orange-600 hover:bg-orange-50">
+                    <Button onClick={handleRestart} variant="outline" className="gap-2 border-orange-500 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-950">
                       <RotateCcw className="h-4 w-4" />
                       Restart
                     </Button>
-                    <Button onClick={handleStopRecording} variant="outline" className="gap-2 border-red-500 text-red-600 hover:bg-red-50">
+                    <Button onClick={handleStopRecording} variant="outline" className="gap-2 border-red-500 text-red-600 hover:bg-red-50 dark:hover:bg-red-950">
                       <Square className="h-4 w-4" />
                       Stop
                     </Button>
@@ -353,8 +417,9 @@ pnpm add recordpanel`
       </section>
 
       {/* Installation & Code Examples */}
-      <section className="py-20 border-b">
-        <div className="container mx-auto px-4">
+      <section className="py-20 border-b relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+        <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Get Started</h2>
             
@@ -420,8 +485,9 @@ pnpm add recordpanel`
       </section>
 
       {/* API Reference */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-muted/30 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+        <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">API Reference</h2>
             
@@ -471,7 +537,7 @@ recorder.getState()    // 'idle' | 'requesting' | 'recording' | 'paused' | 'stop
 recorder.getRecordingDuration()  // number (seconds)`
                 }
               ].map((api, i) => (
-                <div key={i} className="bg-card border rounded-lg p-6">
+                <div key={i} className="bg-card/50 backdrop-blur-sm border rounded-lg p-6">
                   <h3 className="text-xl font-semibold mb-2 font-mono">{api.title}</h3>
                   <p className="text-muted-foreground mb-4">{api.desc}</p>
                   <pre className="bg-muted p-4 rounded border overflow-x-auto">
@@ -485,8 +551,9 @@ recorder.getRecordingDuration()  // number (seconds)`
       </section>
 
       {/* Browser Support */}
-      <section className="py-20 border-b">
-        <div className="container mx-auto px-4">
+      <section className="py-20 border-b relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+        <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Browser Support</h2>
             <p className="text-muted-foreground mb-8">
@@ -498,7 +565,7 @@ recorder.getRecordingDuration()  // number (seconds)`
                 { name: 'Firefox', support: 'Screen + Mic', icon: '✅' },
                 { name: 'Safari', support: 'Screen + Mic', icon: '✅' },
               ].map((browser, i) => (
-                <div key={i} className="p-6 border rounded-lg bg-card">
+                <div key={i} className="p-6 border rounded-lg bg-card/50 backdrop-blur-sm">
                   <div className="text-3xl mb-2">{browser.icon}</div>
                   <h3 className="font-semibold mb-1">{browser.name}</h3>
                   <p className="text-sm text-muted-foreground">{browser.support}</p>
@@ -513,10 +580,11 @@ recorder.getRecordingDuration()  // number (seconds)`
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t">
-        <div className="container mx-auto px-4">
+      <footer className="py-12 border-t relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+        <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-4">RecordPanel</h3>
+            <Logo className="justify-center mb-4" />
             <p className="text-muted-foreground mb-6">
               A powerful React SDK for screen recording with camera and audio support
             </p>
@@ -535,7 +603,7 @@ recorder.getRecordingDuration()  // number (seconds)`
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-8">
-              Made with ❤️ by <a href="https://geekyants.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary">GeekyAnts</a>
+              Made with ❤️ by <a href="https://geekyants.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">GeekyAnts</a>
             </p>
           </div>
         </div>
@@ -546,14 +614,17 @@ recorder.getRecordingDuration()  // number (seconds)`
 
 function App() {
   return (
-    <RecordPanelHost 
-      config={{
-        theme: 'auto',
-        stopButtonText: 'Send'
-      }}
-    >
-      <AppContent />
-    </RecordPanelHost>
+    <>
+      <Toaster />
+      <RecordPanelHost 
+        config={{
+          theme: 'auto',
+          stopButtonText: 'Send'
+        }}
+      >
+        <AppContent />
+      </RecordPanelHost>
+    </>
   )
 }
 
