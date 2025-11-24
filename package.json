@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.js",
     "build:lib": "vite build --config vite.config.library.js",
     "lint": "eslint .",
     "preview": "vite preview",

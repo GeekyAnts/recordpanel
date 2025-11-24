@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { ThemeProvider } from 'next-themes'
 import { RecordPanelHost, useRecordPanel, type RecordingResult } from './recordpanel'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/sonner'
