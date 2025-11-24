@@ -1,0 +1,239 @@
+.recordpanel-overlay {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  pointer-events: all;
+  animation: slideInUp 0.3s ease-out;
+  cursor: move;
+  user-select: none;
+}
+
+.recordpanel-overlay.dragging {
+  cursor: grabbing !important;
+}
+
+.recordpanel-overlay.dragging * {
+  cursor: grabbing !important;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.recordpanel-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: all;
+}
+
+.recordpanel-camera-preview {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 8px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 0 0 2px hsl(var(--border)),
+    0 0 0 4px hsl(var(--muted));
+  transition: all 0.3s ease;
+  cursor: move;
+  z-index: 1;
+}
+
+.recordpanel-camera-preview:hover {
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 2px hsl(var(--border)),
+    0 0 0 4px hsl(var(--muted));
+  transform: scale(1.02);
+}
+
+.recordpanel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.recordpanel-recording-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recordpanel-dot {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.recordpanel-paused-indicator {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recordpanel-controls {
+  display: flex;
+  gap: 6px;
+  background: hsl(var(--card));
+  backdrop-filter: blur(12px);
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 
+    0 2px 12px rgba(0, 0, 0, 0.15),
+    0 0 0 1px hsl(var(--border));
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid hsl(var(--border));
+  cursor: move;
+}
+
+.recordpanel-controls button {
+  cursor: pointer;
+}
+
+.recordpanel-duration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  padding: 0 8px;
+  font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  background: hsl(var(--muted));
+  border-radius: 5px;
+  height: 32px;
+}
+
+.recordpanel-audio-meter {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 6px;
+}
+
+.recordpanel-audio-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 18px;
+}
+
+.recordpanel-audio-bar-segment {
+  width: 3px;
+  background: hsl(var(--primary));
+  border-radius: 1.5px;
+  transition: all 0.1s ease;
+}
+
+.recordpanel-audio-bar-segment:nth-child(1) {
+  height: 30%;
+}
+
+.recordpanel-audio-bar-segment:nth-child(2) {
+  height: 50%;
+}
+
+.recordpanel-audio-bar-segment:nth-child(3) {
+  height: 70%;
+}
+
+.recordpanel-audio-bar-segment:nth-child(4) {
+  height: 85%;
+}
+
+.recordpanel-audio-bar-segment:nth-child(5) {
+  height: 100%;
+}
+
+.recordpanel-audio-bar-segment.active {
+  background: hsl(var(--primary));
+  box-shadow: 0 0 4px hsl(var(--primary) / 0.5);
+}
+
+.recordpanel-audio-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: hsl(var(--primary) / 0.2);
+  border-radius: 0 0 50% 50%;
+  overflow: hidden;
+}
+
+.recordpanel-audio-bar {
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    hsl(var(--primary)),
+    hsl(var(--primary) / 0.8)
+  );
+  transition: height 0.1s ease;
+  border-radius: 0 0 50% 50%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .recordpanel-overlay {
+    bottom: 16px;
+    right: 16px;
+  }
+  
+  .recordpanel-camera-preview {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .recordpanel-controls {
+    padding: 10px;
+    gap: 6px;
+  }
+}
