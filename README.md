@@ -63,6 +63,14 @@ RecordPanel is a feature-rich React SDK that enables screen recording with camer
 - Memory-efficient blob handling
 - Pause/resume duration tracking
 
+
+## About
+
+   RecordPanel SDK by [GeekyAnts](https://geekyants.com?utm_source=github&utm_medium=opensource&utm_campaign=recordpanel).
+
+   For custom SDK development, check our
+   [web engineering services](https://geekyants.com/service/hire-web-app-development-services?utm_source=github&utm_medium=opensource&utm_campaign=recordpanel).
+
 ## Installation
 
 ```bash
